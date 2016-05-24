@@ -3,6 +3,7 @@
 ### Requirements
 + Install [Node js](https://nodejs.org/en/) version >= 6
 + Install postgresql $brew install postgresql
++ change db settings into db/sql/connect.js
 + Run $npm i -g gulp
 + Run $npm i
 + Run $createdb tiger
