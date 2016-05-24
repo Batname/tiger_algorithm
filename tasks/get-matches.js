@@ -9,6 +9,18 @@ const runQuery = require('../db/runQuery');
 const distance = require('../lib/distance');
 const distanceLimit = require('../distanceLimit');
 
+function _quit (client) {
+  gutil.log(gutil.colors.magenta('!!!!!!! >>>>>>>>> NO MATCHES FOUND'));
+  client.end();
+}
+
+function preferencesFilter(argsPreferences) {
+  return (row) => {
+    const preferences = row.preferences.split(',');
+    return _.some(preferences, _.includes.bind(null, argsPreferences.split(',')));
+  };
+}
+
 module.exports = options => {
   return function() {
 
@@ -33,25 +45,19 @@ module.exports = options => {
 
     return co(function*() {
       const client = yield dbConnect();
-      let collection = yield runQuery(client, {string: query});
 
-      if (args.preferences) {
-        collection = _.filter(collection, (row) => {
-          const preferences = row.preferences.split(',');
-          return _.some(preferences, _.includes.bind(null, args.preferences.split(',')));
-        });
-      }
+      let collection = yield runQuery(client, {string: query});
+      if (!collection.length) return _quit(client);
+
+      collection = args.preferences ? _.filter(collection, preferencesFilter(args.preferences)) : collection;
+      if (!collection.length) return _quit(client);
 
       collection = _.filter(collection, (row) => {
         return distance(row.latitude, row.longitude, geoArgs[0], geoArgs[1], 'K') <= distanceLimit[args.country];
       });
+      if (!collection.length) return _quit(client);
 
-      if (collection.length) {
-        gutil.log(gutil.colors.magenta('!!!!!!! >>>>>>>>> HERE IS YOUR MATCHES'), collection);
-      } else {
-        gutil.log(gutil.colors.magenta('!!!!!!! >>>>>>>>> NO MATCHES FOUND'));
-      }
-
+      gutil.log(gutil.colors.magenta('!!!!!!! >>>>>>>>> HERE IS YOUR MATCHES'), collection);
       client.end();
 
     }).catch(function (error) {
