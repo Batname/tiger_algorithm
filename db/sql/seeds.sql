@@ -1,0 +1,73 @@
+INSERT INTO matches(name,country_code,latitude,longitude,gender,preferences)
+VALUES (
+  'Maria',
+  'de',
+  52.5126466,
+  13.4154251,
+  'F',
+  'windows,oven'
+),
+(
+  'David',
+  'de',
+  52.5126466,
+  13.4154251,
+  'M',
+  'fridge,windows,laundry,oven'
+),
+(
+  'Kathrin',
+  'de',
+  52.5126466,
+  13.4154251,
+  'F',
+  'laundry'
+),
+(
+  'Sara',
+  'nl',
+  52.3650172,
+  4.8375675,
+  'F',
+  'fridge,windows,laundry'
+),
+(
+  'Maria',
+  'nl',
+  52.3650172,
+  13.4154251,
+  'F',
+  'fridge'
+),
+(
+  'Johanna',
+  'nl',
+  52.5166466,
+  13.4174251,
+  'F',
+  'fridge,laundry'
+),
+(
+  'Johanna',
+  'nl',
+  52.5166466,
+  13.4174251,
+  'F',
+  'oven'
+),
+(
+  'Johanna',
+  'nl',
+  52.5166466,
+  13.4174251,
+  'F',
+  'fridge,windows'
+),
+(
+  'Johanna',
+  'nl',
+  52.5166466,
+  13.4174251,
+  'F',
+  'windows,laundry'
+);
